@@ -1,0 +1,3 @@
+[submodule "jupyter-tensorflow"]
+	path = jupyter-tensorflow
+	url = https://github.com/alessandroadamo/docker
