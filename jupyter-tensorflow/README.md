@@ -30,8 +30,10 @@ To run `jupyter-tensorflow`:
 	$ docker run -it --rm --name jupyter-tensorflow-nb -p 8888:88888 -v /home/user/notebook:/home/user/notebook jupyter-tensorflow
 
 To access to `JupyterLab` from the browser:
+
 	$ http:\\localhost:8888
 
 To access to the old `Jupyter` interface from the browser:
+	
 	$ http:\\localhost:8888\tree?
 
