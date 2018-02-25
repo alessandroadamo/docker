@@ -31,9 +31,9 @@ To run `jupyter-tensorflow`:
 
 To access to `JupyterLab` from the browser:
 
-	$ http:\\localhost:8888
+	http:\\localhost:8888
 
 To access to the old `Jupyter` interface from the browser:
 	
-	$ http:\\localhost:8888\tree?
+	http:\\localhost:8888\tree?
 
