@@ -27,7 +27,7 @@ To enable / disable the [OpenAI Gym](https://gym.openai.com):
 
 To run `jupyter-tensorflow`:
 
-	$ docker run -it --rm --name jupyter-tensorflow-nb -p 8888:88888 -v /home/user/notebook:/home/user/notebook jupyter-tensorflow
+	$ docker run -it --rm --name jupyter-tensorflow-nb -p 8888:8888 -v /home/user/notebook:/home/user/notebook jupyter-tensorflow
 
 To access to `JupyterLab` from the browser:
 

@@ -5,8 +5,8 @@ MAINTAINER Alessandro Adamo <alessandro.adamo@gmail.com>
 ARG NB_USER=user
 ARG NB_UID=1000
 
-ARG WITH_NLTK=true
-ARG WITH_OPENAI_GYM=true
+ARG WITH_NLTK=false
+ARG WITH_OPENAI_GYM=false
 
 ENV NB_USER $NB_USER
 ENV NB_UID $NB_UID
@@ -62,30 +62,39 @@ RUN adduser --home /home/$NB_USER \
 USER user
 
 # Setup user home directory
-RUN mkdir /home/$NB_USER/notebooks && \
+RUN mkdir /home/$NB_USER/notebook && \
     mkdir /home/$NB_USER/.jupyter && \
     mkdir /home/$NB_USER/.local
 
 # Basic Packages
-RUN pip install --user \
+RUN pip install --upgrade --user --no-binary \
+        numpy \
+        scipy \
+        pandas
+        
+RUN pip install --upgrade --user \
         iso8601 \
         urllib3 \
         h5py \
-        numpy \
-        scipy \
-        pandas \
+        # numpy \
+        # scipy \
+        # pandas \
         geojson \
         geopandas
 
 # Tensorboard for Jupyter
-RUN pip install --user \
+RUN pip install --upgrade --user \
         jupyter-tensorboard
 
 # Machine Learning packages
+RUN pip install --upgrade --user --no-binary \
+        scikit-learn
+
 RUN pip install --upgrade --user \
-        scikit-learn \
+        # scikit-learn \
         tensorflow \
         keras \
+        keras-rl \
         tensorboard
 
 # Visualization packages
@@ -117,12 +126,12 @@ RUN if [ $WITH_OPENAI_GYM = true ]; then \
     fi
 
 # Configure container startup
-WORKDIR /home/$NB_USER/notebooks
+WORKDIR /home/$NB_USER/notebook
 
 # Configure the container volume
-VOLUME /home/$NB_USER/notebooks
+VOLUME /home/$NB_USER/notebook
 
-ENTRYPOINT xvfb-run -s "-screen 0 1400x900x24" jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --NotebookApp.token='' --NotebookApp.base_url=/ --NotebookApp.notebook_dir=/home/$NB_USER/notebooks
+ENTRYPOINT xvfb-run -s "-screen 0 1400x900x24" jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --NotebookApp.token='' --NotebookApp.base_url=/ --NotebookApp.notebook_dir=/home/$NB_USER/notebook
 
 # Jupyter port
 EXPOSE 8888
