@@ -76,9 +76,6 @@ RUN pip install --upgrade --user \
         iso8601 \
         urllib3 \
         h5py \
-        # numpy \
-        # scipy \
-        # pandas \
         geojson \
         geopandas
 
@@ -87,19 +84,18 @@ RUN pip install --upgrade --user \
         jupyter-tensorboard
 
 # Machine Learning packages
-RUN pip install --upgrade --user --no-binary \
+RUN pip install --upgrade --user  \
         scikit-learn
 
 RUN pip install --upgrade --user \
-        # scikit-learn \
         tensorflow \
         keras \
-        keras-rl \
         tensorboard
 
 # Visualization packages
 RUN pip install --upgrade --user \
-        matplotlib \
+        # matplotlib \
+        ggplot \
         seaborn \
         bokeh \
         plotly
