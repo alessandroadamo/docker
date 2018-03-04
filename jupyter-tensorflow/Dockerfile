@@ -94,7 +94,7 @@ RUN pip install --upgrade --user \
 
 # Visualization packages
 RUN pip install --upgrade --user \
-        # matplotlib \
+        matplotlib \
         ggplot \
         seaborn \
         bokeh \
@@ -121,6 +121,9 @@ RUN if [ $WITH_OPENAI_GYM = true ]; then \
         pip install --upgrade --user "gym[classic_control]"; \
     fi
 
+RUN pip install --upgrade --user \
+	flask
+
 # Configure container startup
 WORKDIR /home/$NB_USER/notebook
 
@@ -130,4 +133,4 @@ VOLUME /home/$NB_USER/notebook
 ENTRYPOINT xvfb-run -s "-screen 0 1400x900x24" jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --NotebookApp.token='' --NotebookApp.base_url=/ --NotebookApp.notebook_dir=/home/$NB_USER/notebook
 
 # Jupyter port
-EXPOSE 8888
+EXPOSE 8888 5000
