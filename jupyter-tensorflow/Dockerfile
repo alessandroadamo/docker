@@ -47,7 +47,11 @@ RUN apt-get install -y \
         xorg-dev \
         libboost-all-dev \
         libsdl2-dev \
-        swig  
+        swig
+ 
+# install nodejs
+RUN curl -sL https://deb.nodesource.com/setup_9.x
+RUN apt-get install -y nodejs
 
 RUN pip install \
         jupyter \
@@ -59,7 +63,7 @@ RUN adduser --home /home/$NB_USER \
         --shell /bin/bash \
         --uid 1000 user
 
-USER user
+USER $NB_USER
 
 # Setup user home directory
 RUN mkdir /home/$NB_USER/notebook && \
@@ -75,6 +79,7 @@ RUN pip install --upgrade --user --no-binary \
 RUN pip install --upgrade --user \
         iso8601 \
         urllib3 \
+        requests \
         h5py \
         geojson \
         geopandas
@@ -99,6 +104,10 @@ RUN pip install --upgrade --user \
         seaborn \
         bokeh \
         plotly
+
+# USER root
+# RUN jupyter labextension install jupyterlab_bokeh
+# USER $NB_USER
 
 # Natural Language Processing packages
 RUN if [ $WITH_NLTK = true ]; then \
