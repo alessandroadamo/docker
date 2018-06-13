@@ -23,6 +23,10 @@ To enable / disable the [OpenAI Gym](https://gym.openai.com):
 
 	$ docker build -t jupyter-tensorflow . --build-arg WITH_OPENAI_GYM=true
 
+To enable / disable the [OpenCV](https://www.opencv.org):
+
+	$ docker build -t jupyter-tensorflow . --build-arg WITH_OPENCV=true
+
 ## Usage
 
 To run `jupyter-tensorflow`:

@@ -7,6 +7,7 @@ ARG NB_UID=1000
 
 ARG WITH_NLTK=false
 ARG WITH_OPENAI_GYM=false
+ARG WITH_OPENCV=false
 
 ENV NB_USER $NB_USER
 ENV NB_UID $NB_UID
@@ -15,13 +16,19 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
+ENV TERM xterm
+ENV TZ Europe/Rome
+
 ENV WITH_NLTK $WITH_NLTK
 ENV WITH_OPENAI_GYM $WITH_OPENAI_GYM
+ENV WITH_OPENCV $WITH_OPENCV
 
 RUN apt-get -qq update && \
         apt-get -y dist-upgrade
 
-RUN apt-get install -y \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            tzdata \
+            dialog \
 	    curl \
 	    gcc \
 	    g++ \
@@ -31,8 +38,9 @@ RUN apt-get install -y \
 	    locales \
 	    fonts-dejavu
 
-RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-RUN locale-gen
+RUN echo "en_US.UTF-8 UTF-8" > /etc/locale.gen && locale-gen
+
+RUN cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get install -y python3-pip && \ 
         pip3 install --upgrade pip 
@@ -43,12 +51,13 @@ RUN apt-get install -y \
         xvfb \
         zlib1g-dev \
         libjpeg-dev \
-        libav-tools \
+#        libav-tools \
+        ffmpeg \
         xorg-dev \
         libboost-all-dev \
         libsdl2-dev \
         swig
- 
+
 # install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_9.x
 RUN apt-get install -y nodejs
@@ -57,6 +66,11 @@ RUN pip install \
         jupyter \
         ipykernel \
         jupyterlab
+
+# OpenCV 
+RUN if [ $WITH_OPENCV = true ]; then \
+       apt-get install -y python3-opencv; \
+    fi
 
 # Create user with UID=1000 and in the 'users' group
 RUN adduser --home /home/$NB_USER \
@@ -130,6 +144,14 @@ RUN if [ $WITH_OPENAI_GYM = true ]; then \
         pip install --upgrade --user "gym[classic_control]"; \
     fi
 
+# OpenCV
+RUN if [ $WITH_OPENCV = true ]; then \
+        pip install --upgrade --user \
+            scikit-image \ 
+            opencv-python \
+            pillow; \ 
+    fi
+
 RUN pip install --upgrade --user \
 	flask
 
@@ -139,7 +161,9 @@ WORKDIR /home/$NB_USER/notebook
 # Configure the container volume
 VOLUME /home/$NB_USER/notebook
 
-ENTRYPOINT xvfb-run -s "-screen 0 1400x900x24" jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --NotebookApp.token='' --NotebookApp.base_url=/ --NotebookApp.notebook_dir=/home/$NB_USER/notebook
+ENTRYPOINT xvfb-run -s "-screen 0 1400x900x24" jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --NotebookApp.token='' --NotebookApp.base_url=/ --NotebookApp.notebook_dir=/home/$NB_USER/notebook --allow-root
+
+USER root
 
 # Jupyter port
 EXPOSE 8888 5000
