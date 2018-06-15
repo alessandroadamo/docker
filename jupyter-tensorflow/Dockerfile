@@ -186,5 +186,5 @@ ENTRYPOINT xvfb-run -s "-screen 0 1400x900x24" pyspark
 # ENTRYPOINT xvfb-run -s "-screen 0 1400x900x24" jupyter lab --port=8888 --no-browser --ip=0.0.0.0 --NotebookApp.token='' --NotebookApp.base_url=/ --NotebookApp.notebook_dir=/home/$NB_USER/notebook; \
 
 # Jupyter port
-EXPOSE 8888 5000
+EXPOSE 8888 5000 4040
 

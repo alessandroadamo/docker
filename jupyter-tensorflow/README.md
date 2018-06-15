@@ -31,7 +31,7 @@ To enable / disable the [OpenCV](https://www.opencv.org):
 
 To run `jupyter-tensorflow`:
 
-	$ docker run -it --rm --name jupyter-tensorflow-nb -p 8888:8888 -v /home/user/notebook:/home/user/notebook jupyter-tensorflow
+	$ docker run -it --rm --name jupyter-tensorflow-nb -p 8888:8888 4040:4040 -v /home/user/notebook:/home/user/notebook jupyter-tensorflow
 
 To access to `JupyterLab` from the browser:
 
@@ -41,3 +41,6 @@ To access to the old `Jupyter` interface from the browser:
 	
 	http:\\localhost:8888\tree?
 
+To access to Spark UI
+
+	http:\\localhost:4040
