@@ -155,6 +155,9 @@ RUN if [ $WITH_OPENCV = true ]; then \
         pip install --upgrade --user \
             scikit-image \ 
             opencv-python \
+            imaug \
+            imblearn \
+            xlrd \
             pillow; \ 
     fi
 
