@@ -174,6 +174,12 @@ ENV PYSPARK_PYTHON=python3
 ENV PYSPARK_DRIVER_PYTHON=jupyter 
 ENV PYSPARK_DRIVER_PYTHON_OPTS="lab --port=8888 --no-browser --ip=0.0.0.0 --NotebookApp.token='' --NotebookApp.base_url=/ --NotebookApp.notebook_dir=/home/$NB_USER/notebook"
 ENV PATH $SPARK_HOME/bin:$PATH
+
+# MQTT, Kafka and Avro Libraries
+RUN pip install --upgrade --user \
+        avro-python3 \
+        confluent-kafka \
+        paho-mqtt
  
 # Flask
 RUN pip install --upgrade --user \
