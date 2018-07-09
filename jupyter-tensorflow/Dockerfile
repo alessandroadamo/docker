@@ -114,7 +114,8 @@ RUN pip install --upgrade --user \
 
 # Machine Learning packages
 RUN pip install --upgrade --user  \
-        scikit-learn
+        scikit-learn \
+        mlens
 
 RUN pip install --upgrade --user \
         tensorflow \
